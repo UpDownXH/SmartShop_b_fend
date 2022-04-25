@@ -58,6 +58,7 @@ import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
 import { reactive,toRefs} from 'vue';
 import { useRouter } from 'vue-router';
+import { localGet, pathMap } from '@/utils'
 export default {
   name: 'App',
   components: {
@@ -72,8 +73,22 @@ export default {
     })
 
     //监听路由的变化
-    router.beforeEach((to)=>{
+    router.beforeEach((to, from, next) => {
+      if (to.path == '/login') {
+        // 如果路径是 /login 则正常执行
+        next()
+      } else {
+        // 如果不是 /login，判断是否有 token
+        if (!localGet('token')) {
+          // 如果没有，则跳至登录页面
+          next({ path: '/login' })
+        } else {
+          // 否则继续执行
+          next()
+        }
+      }
       state.showMenu = !noMenu.includes(to.path)
+      document.title = pathMap[to.name]
     })
 
     return {

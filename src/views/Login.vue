@@ -13,7 +13,7 @@
             </div>
             <!-- 表单部分 -->
             <el-form label-position="top" :rules="rules" :model="ruleForm" ref="loginForm" class="login-form">
-                <el-form-item label="账号" prop="usrename">
+                <el-form-item label="账号" prop="username">
                     <el-input type="text" v-model.trim="ruleForm.username" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password">
@@ -31,6 +31,7 @@
 <script>
 import { reactive, ref, toRefs } from '@vue/reactivity'
 import axios from '@/utils/axios'
+import { localSet, localGet } from '@/utils'
 export default {
     name: 'Login',
     setup() {
@@ -49,21 +50,35 @@ export default {
                 ]
             }
         })
-        // function submitForm() {
-        //     axios.post()
-        // }
+
 
         const submitForm = async () => {
             loginForm.value.validate((valid) => {
                 if (valid) {
-        axios.post('/smartshop_admin/authorizations/', {
-            username: state.ruleForm.username || '',
-            password: state.ruleForm.password
-        }).then(res => {
-            localSet('token', res)
-            window.location.href = '/'
-        })
+                    axios.post('/smartshop_admin/authorizations/', {
+                        username: state.ruleForm.username || '',
+                        password: state.ruleForm.password
+                    }).then(res => {
+                        ElMessage({
+                            message: '恭喜，成功登录',
+                            type: 'success'
+                        })
+                        localSet('user_id', res.data.id)
+                        localSet('username', res.data.username)
+                        localSet('token', res.data.token)
+                        window.location.href = '/'
+                        console.log(res);
+                    }).catch(error => {
+                        ElMessage({
+                            message: '用户名或密码错误',
+                            type: 'error'
+                        })
+                    });
                 } else {
+                    ElMessage({
+                        message: '请输入账号和密码',
+                        type: 'error'
+                    })
                     console.log('error submit!!');
                     return false;
                 }
@@ -72,7 +87,6 @@ export default {
         const resetForm = () => {
             loginForm.value.resetFields();
         }
-
 
 
         return {
@@ -101,7 +115,7 @@ export default {
 
 .login-container {
     width: 420px;
-    height: 500px;
+    height: 400px;
     background-color: #fff;
     border-radius: 40px;
     box-shadow: 0px 21px 41px 0px rgba(0, 0, 0, 0.2);
@@ -138,18 +152,21 @@ export default {
 }
 
 .button-login {
-    width: 100%
+    width: 100%;
+    height: 40px;
+    border-radius: 15px;
 }
 
 .service-term {
     width: 100%
 }
 
+/* 
 .login-form>>>.el-form--label-top .el-form-item__label {
     padding: 0;
 }
 
 .login-form>>>.el-form-item {
     margin-bottom: 0;
-}
+} */
 </style>
