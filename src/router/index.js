@@ -2,6 +2,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Index from '@/views/Index.vue'
 import Login from '@/views/Login'
+import Intruduce from '@/views/Intruduce'
+import Sku from '@/views/Sku'
+
+
 import AddGood from '@/views/AddGood'
 
 const router = createRouter({
@@ -17,6 +21,18 @@ const router = createRouter({
       name: 'login',
       component: Login
     },
+    {
+      path: '/intruduce',
+      name: 'intruduce',
+      component: Intruduce
+    },
+    {
+      path: '/sku',
+      name: 'sku',
+      component: Sku
+    },
+
+
     {
       path: '/add',
       name: 'add',

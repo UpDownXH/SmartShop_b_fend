@@ -14,7 +14,7 @@
         <!-- menu主菜单 -->
         <el-menu :router="true" background-color="#222832" text-color="#fff">
           <!-- menu子菜单 -->
-          <el-sub-menu>
+          <el-sub-menu index="1">
             <!-- 子菜单标题 -->
             <template #title>
               <span>
@@ -24,6 +24,11 @@
             <!-- menu子子菜单 -->
             <el-menu-item-group>
               <!-- menu子子子菜单 -->
+              <el-menu-item index="/intruduce">
+                <el-icon>
+                  <home-filled />
+                </el-icon>系统介绍
+              </el-menu-item>
               <el-menu-item index="/">
                 <el-icon>
                   <home-filled />
@@ -32,8 +37,39 @@
               <el-menu-item index="/add">
                 <el-icon>
                   <home-filled />
-                </el-icon>添加商品
+                </el-icon>demo
               </el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
+          <el-sub-menu index="2">
+            <template #title>
+              <span>
+                商品管理
+              </span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/sku">SKU管理</el-menu-item>
+              <el-menu-item index="/pictures">图片管理</el-menu-item>
+            </el-menu-item-group>
+          </el-sub-menu>
+          <el-sub-menu index="3">
+            <template #title>
+              <span>
+                订单管理
+              </span>
+            </template>
+          </el-sub-menu>
+          <el-sub-menu index="4">
+            <template #title>
+              <span>
+                用户管理
+              </span>
+            </template>
+            <el-menu-item-group>
+              <el-menu-item index="/user">所有用户管理</el-menu-item>
+              <el-menu-item index="/author">权限管理</el-menu-item>
+              <el-menu-item index="/group">用户组管理</el-menu-item>
+              <el-menu-item index="/admin">管理员管理</el-menu-item>
             </el-menu-item-group>
           </el-sub-menu>
         </el-menu>
@@ -56,7 +92,7 @@
 <script>
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
-import { reactive,toRefs} from 'vue';
+import { reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
 import { localGet, pathMap } from '@/utils'
 export default {

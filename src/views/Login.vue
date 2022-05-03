@@ -22,6 +22,7 @@
                 <el-form-item>
                     <div class="service-term">登录表示您已同意<a>《服务条款》</a></div>
                     <el-button class="button-login" type="info" @click="submitForm">登录</el-button>
+                    <el-checkbox v-model="checked" @change="!checked">下次自动登录</el-checkbox>
                 </el-form-item>
             </el-form>
         </div>
@@ -41,6 +42,7 @@ export default {
                 username: '',
                 password: ''
             },
+            checked: true,
             rules: {
                 username: [
                     { required: 'true', message: '账户不能为空', trigger: 'blur' }
@@ -55,7 +57,7 @@ export default {
         const submitForm = async () => {
             loginForm.value.validate((valid) => {
                 if (valid) {
-                    axios.post('/smartshop_admin/authorizations/', {
+                    axios.post('/authorizations/', {
                         username: state.ruleForm.username || '',
                         password: state.ruleForm.password
                     }).then(res => {
