@@ -25,4 +25,5 @@ export const pathMap = {
   user: '用户管理',
   author: '权限管理',
   group: '权限管理',
+  admin: '管理员管理',
 }

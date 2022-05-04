@@ -127,6 +127,7 @@ export default {
         //取消时重置表格
         const cancel = () => {
             state.visible = false
+            state.groupForm.listval = []
             formRef.value.resetFields();
         }
 
