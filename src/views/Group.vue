@@ -2,16 +2,14 @@
     <el-card>
         <template #header>
             <div class="header">
-                <el-button type="primary" icon="plus" @click="handleAdd">增加权限</el-button>
+                <el-button type="primary" icon="plus" @click="handleAdd">增加用户组</el-button>
             </div>
         </template>
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%">
             @selection-change="handleSelectionChange">
             <el-table-column prop="id" label="id" width="100">
             </el-table-column>
-            <el-table-column prop="name" label="权限名称">
-            </el-table-column>
-            <el-table-column prop="codename" label="权限识别名">
+            <el-table-column prop="name" label="组名称">
             </el-table-column>
             <el-table-column label="操作" width="100">
                 <template #default="scope">
@@ -28,20 +26,21 @@
         <el-pagination background layout="prev, pager, next" :page-count="pages" :page-size="pageSize"
             :current-page="currentPage" @current-change="changePage" />
     </el-card>
-    <DialogAddAuthor ref='addAuthor' :reload="fnGetData" :type="type" />
+    <DialogAddGroup ref='addGroup' :reload="fnGetData" :type="type" />
 </template>
+
 
 <script>
 import { onMounted, reactive, ref, toRefs } from 'vue'
 import axios from '@/utils/axios'
-import DialogAddAuthor from '@/components/DialogAddUsers.vue'
+import DialogAddGroup from '@/components/DialogAddGroup.vue'
 export default {
     name: 'Author',
     components: {
-        DialogAddAuthor
+        DialogAddGroup
     },
     setup() {
-        const addAuthor = ref(null)
+        const addGroup = ref(null)
         const state = reactive({
             tableData: [],//数据列表
             currentPage: 1,//当前页
@@ -52,19 +51,19 @@ export default {
             // total: 0, // 总条数
         })
 
-        // 添加权限按钮
+        // 添加组按钮
         const handleAdd = () => {
             state.type = 'add'
-            addAuthor.value.open()
+            addGroup.value.open()
         }
-        // 修改权限按钮
+        // 修改组按钮
         const handleEdit = (id) => {
             state.type = 'edit'
-            addAuthor.value.open(id)
+            addGroup.value.open(id)
         }
-        // 删除权限按钮
+        // 删除组按钮
         const handleDeleteOne = (id) => {
-            axios.delete('/permission/perms/' + id + '/').then(res => {
+            axios.delete('/permission/groups/' + id + '/').then(res => {
                 ElMessage({
                     message: '权限删除成功!',
                     type: 'success'
@@ -83,7 +82,7 @@ export default {
         })
         //获取分页
         const fnGetData = (num) => {
-            axios.get('/permission/perms/', {
+            axios.get('/permission/groups/', {
                 params: {
                     page: num,
                     pagesize: state.pageSize
@@ -107,7 +106,7 @@ export default {
         }
 
         return {
-            addAuthor,
+            addGroup,
             ...toRefs(state),
             handleSelectionChange,
             changePage,

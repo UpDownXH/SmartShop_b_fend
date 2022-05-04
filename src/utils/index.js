@@ -24,4 +24,5 @@ export const pathMap = {
   pictures: '图片管理',
   user: '用户管理',
   author: '权限管理',
+  group: '权限管理',
 }

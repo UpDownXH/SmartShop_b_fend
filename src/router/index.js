@@ -7,6 +7,7 @@ import Sku from '@/views/Sku'
 import Pictures from '@/views/Pictures'
 import User from '@/views/User'
 import Author from '@/views/Author'
+import Group from '@/views/Group'
 
 // import AddGood from '@/views/AddGood'
 
@@ -52,6 +53,11 @@ const router = createRouter({
       path: '/author',
       name: 'author',
       component: Author
+    },
+    {
+      path: '/group',
+      name: 'group',
+      component: Group
     },
   ]
 })
