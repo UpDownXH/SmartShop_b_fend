@@ -23,4 +23,5 @@ export const pathMap = {
   sku: 'SKU管理',
   pictures: '图片管理',
   user: '用户管理',
+  author: '权限管理',
 }

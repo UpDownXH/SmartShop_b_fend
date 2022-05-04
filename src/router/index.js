@@ -6,6 +6,7 @@ import Intruduce from '@/views/Intruduce'
 import Sku from '@/views/Sku'
 import Pictures from '@/views/Pictures'
 import User from '@/views/User'
+import Author from '@/views/Author'
 
 // import AddGood from '@/views/AddGood'
 
@@ -46,6 +47,11 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       component: User
+    },
+    {
+      path: '/author',
+      name: 'author',
+      component: Author
     },
   ]
 })
