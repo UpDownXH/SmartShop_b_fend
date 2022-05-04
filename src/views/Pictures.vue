@@ -2,39 +2,23 @@
     <el-card>
         <template #header>
             <div class="header">
-                <el-button type="primary" icon="plus" @click="handleAdd">增加商品</el-button>
-                <!-- 查找功能后续添加 -->
-                <!-- <el-input placeholder="Please input" class="input-with-select">
-                    <template #prepend>
-                        <el-button icon="Search" />
-                    </template>
-                </el-input> -->
+                <el-button type="primary" icon="plus" @click="handleAdd">增加商品图片</el-button>
             </div>
         </template>
-        <!-- :load="loading" 有问题，暂时不设置 -->
         <el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%"
             @selection-change="handleSelectionChange">
             <el-table-column prop="id" label="id" width="50">
             </el-table-column>
-            <el-table-column prop="name" label="商品SKU名">
+            <el-table-column prop="sku" label="SKU商品id">
             </el-table-column>
-            <el-table-column prop="category" label="分类">
-            </el-table-column>
-            <el-table-column prop="price" label="价格">
-            </el-table-column>
-            <el-table-column prop="stock" label="库存">
-            </el-table-column>
-            <el-table-column prop="sales" label="销量">
-            </el-table-column>
-            <el-table-column label="上下架">
+            <el-table-column label="商品图片">
                 <template #default="scope">
-                    <span>{{ scope.row.is_launched ? '上架' : '下架' }}</span>
+                    <img :src="scope.row.image" width="100" height="100">
                 </template>
             </el-table-column>
             <el-table-column label="操作" width="100">
                 <template #default="scope">
-                    <a style="cursor: pointer; margin-right: 10px"
-                        @click="handleEdit(scope.row.id, scope.row.spu_id)">修改</a>
+                    <a style="cursor: pointer; margin-right: 10px" @click="handleEdit(scope.row.id)">修改</a>
                     <el-popconfirm title="确定删除吗？" confirmButtonText='确定' cancelButtonText='取消'
                         @confirm="handleDeleteOne(scope.row.id)">
                         <template #reference>
@@ -47,24 +31,21 @@
         <el-pagination background layout="prev, pager, next" :page-count="pages" :page-size="pageSize"
             :current-page="currentPage" @current-change="changePage" />
     </el-card>
-    <DialogAddGoods ref='addGoods' :reload="fnGetData" :type="type" />
+    <DialogAddPictures ref='addPictures' :reload="fnGetData" :type="type" />
 </template>
 
 <script>
 import { onMounted, reactive, ref, toRefs } from 'vue'
 import axios from '@/utils/axios'
-import DialogAddGoods from '@/components/DialogAddGoods.vue'
-import { Search } from '@element-plus/icons-vue'
+import DialogAddPictures from '@/components/DialogAddPictures.vue'
 export default {
-    name: 'Sku',
+    name: 'Pictures',
     components: {
-        DialogAddGoods
+        DialogAddPictures
     },
     setup() {
-        const addGoods = ref(null)
+        const addPictures = ref(null)
         const state = reactive({
-            keyword: '',//搜索词
-
             tableData: [],//数据列表
             currentPage: 1,//当前页
             pageSize: 10,//页容量
@@ -73,27 +54,27 @@ export default {
             pages: 8,//总页数
             // total: 0, // 总条数
         })
-        //添加商品按钮
+        //添加商品图片按钮
         const handleAdd = () => {
             state.type = 'add'
-            addGoods.value.open()
+            addPictures.value.open()
         }
         // 修改商品按钮
-        const handleEdit = (id, gid) => {
+        const handleEdit = (id) => {
             state.type = 'edit'
-            addGoods.value.open(id, gid)
+            addPictures.value.open(id)
         }
         //删除商品按钮
         const handleDeleteOne = (id) => {
-            axios.delete('/skus/' + id + '/').then(res => {
+            axios.delete('/skus/images/' + id + '/').then(res => {
                 ElMessage({
-                    message: '商品删除成功!',
+                    message: '图片删除成功!',
                     type: 'success'
                 })
                 fnGetData()
             }).catch(err => {
                 ElMessage({
-                    message: '商品未找到',
+                    message: '图片未找到',
                     type: 'info'
                 })
             });
@@ -104,12 +85,10 @@ export default {
         })
         //获取分页
         const fnGetData = (num) => {
-
-            axios.get('/skus/', {
+            axios.get('/skus/images/', {
                 params: {
                     page: num,
-                    pagesize: state.pageSize,
-                    keyword: state.keyword
+                    pagesize: state.pageSize
                 }
             }).then(res => {
                 state.tableData = res.data.lists;
@@ -130,14 +109,14 @@ export default {
         }
 
         return {
+            addPictures,
             ...toRefs(state),
             handleSelectionChange,
             changePage,
             handleAdd,
             handleEdit,
-            addGoods,
-            fnGetData,
-            handleDeleteOne
+            handleDeleteOne,
+            fnGetData
         }
     }
 }

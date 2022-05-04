@@ -83,7 +83,7 @@ export default {
             goods_list: [],
             specs_list: [],
         })
-
+        //预挂载数据
         onMounted(() => {
             fnGetCategory();
             fnGetGoods();
@@ -104,14 +104,14 @@ export default {
                 console.log(err.response);
             })
         }
-        // //获取spu商品规格信息
-        // const fnGetSpecs = () => {
-        //     axios.get('/goods/' + state.skuForm.spu_id + '/specs/').then(res => {
-        //         state.specs_list = res.data;
-        //     }).catch(err => {
-        //         console.log(err.response);
-        //     })
-        // }
+        //获取spu商品规格信息
+        const fnGetSpecs = () => {
+            axios.get('/goods/' + state.skuForm.spu_id + '/specs/').then(res => {
+                state.specs_list = res.data;
+            }).catch(err => {
+                console.log(err.response);
+            })
+        }
         //表单提交
         const submitForm = () => {
             if (props.type == 'add') {
@@ -240,7 +240,6 @@ export default {
                     "specs": {}
                 }
             }
-
         }
         //关闭弹窗
         const close = () => {
@@ -272,8 +271,8 @@ export default {
     padding: 32px 17px;
 } */
 
-.el-button+.el-button {
+/* .el-button+.el-button {
     margin-left: 0px;
     margin-top: 10px;
-}
+} */
 </style>
